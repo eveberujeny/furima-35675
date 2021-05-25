@@ -1,24 +1,52 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column       | Type    | Options     |
+| ------------ | ------- | ----------- |
+| name         | string  | null: false |
+| name_reading | string  | null: false |
+| nickname     | string  | null: false |
+| email        | string  | null: false |
+| password     | string  | null: false |
+| birthday     | integer | null: false |
 
-* Ruby version
+### Association
 
-* System dependencies
+- has_many :items
+- has_many :buyers
 
-* Configuration
+## items テーブル
 
-* Database creation
+| Column   | Type       | Options                        |
+| -------- | ---------- | ------------------------------ |
+| text     | text       | null: false                    |
+| textarea | text       | null: false                    |
+| price    | integer    | null: false                    |
+| category | integer    | null: false                    |
+| delivery | integer    | null: false                    |
+| user_id  | references | null: false, foreign_key: true |
 
-* Database initialization
+### Association
 
-* How to run the test suite
+- belongs_to :user
+- has_one :buyers
 
-* Services (job queues, cache servers, search engines, etc.)
+## buyers テーブル
 
-* Deployment instructions
+| Column        | Type       | Options                        |
+| ------------- | ---------- | ------------------------------ |
+| postal_code   | string     | null: false                    |
+| prefecture    | integer    | null: false                    |
+| city          | string     | null: false                    |
+| house_number  | string     | null: false                    |
+| building_name | string     |                                |
+| phone_number  | integer    | null: false                    |
+| user_id       | references | null: false, foreign_key: true |
+| item_id       | references | null: false, foreign_key: true |
 
-* ...
+### Association
+
+- belongs_to :user
+- belongs_to :item
+
