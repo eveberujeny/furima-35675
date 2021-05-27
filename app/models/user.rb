@@ -3,28 +3,26 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  
-  validates :nickname, presence: true
-  validates :birthday, presence: true
 
-  validates :first_name, presence: true,
-                format: {
-                  with: /\A[ぁ-んァ-ン一-龥]/,
-                }
+  with_options presence: true do
+    validates :nickname
+    validates :birthday
+  end
   
-  validates :last_name, presence: true,
-                format: {
-                  with: /\A[ぁ-んァ-ン一-龥]/,
-                }
+  with_options presence: true do
+    with_options format: { with: /\A[ぁ-んァ-ン一-龥]/, } do
+      validates :first_name
+      validates :last_name
+    end
+  end
 
-  validates :name_reading, presence: true,
-                 format: {
-                   with: /\A[\p{katakana}　ー－&&[^ -~｡-ﾟ]]+\z/,
-                 }
-  validates :surname_reading, presence: true,
-                 format: {
-                   with: /\A[\p{katakana}　ー－&&[^ -~｡-ﾟ]]+\z/,
-                 }
+  with_options presence: true do
+    with_options format: { with: /\A[\p{katakana}　ー－&&[^ -~｡-ﾟ]]+\z/, } do
+      validates :name_reading
+      validates :surname_reading
+    end
+  end
+  
   VALID_PASSWORD_REGEX = /(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]/
   validates :password, format: { with: VALID_PASSWORD_REGEX }          
   
