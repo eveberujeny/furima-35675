@@ -10,25 +10,33 @@ class Item < ApplicationRecord
     validates :shipping_day_id
   end
 
+  with_options numericality: { other_than: 1 } do
+    validates :category_id
+    validates :status_id
+    validates :burden_id
+    validates :source_id
+    validates :shipping_day_id
+  end 
+
   belongs_to :user
+  has_one_attached :image
 
+end
 
-
-
-
-
-  class Genre < ActiveHash::Base
-    self.data = [
-      { id: 1, name: '--' },
-      { id: 2, name: '経済' },
-      { id: 3, name: '政治' },
-      { id: 4, name: '地域' },
-      { id: 5, name: '国際' },
-      { id: 6, name: 'IT' },
-      { id: 7, name: 'エンタメ' },
-      { id: 8, name: 'スポーツ' },
-      { id: 9, name: 'グルメ' },
-      { id: 10, name: 'その他' }
-    ]
-    end
+class Category < ActiveHash::Base
+  self.data = [
+    { id: 1, name: '--' },
+    { id: 2, name: 'レディース' },
+    { id: 3, name: 'メンズ' },
+    { id: 4, name: 'ベビー・キッズ' },
+    { id: 5, name: 'インテリア・住まい・小物' },
+    { id: 6, name: 'ほん・音楽・ゲーム' },
+    { id: 7, name: 'おもちゃ・ホビー・グッズ' },
+    { id: 8, name: '家電・スマホ・カメラ' },
+    { id: 9, name: 'スポーツ・レジャー' },
+    { id: 10, name: 'ハンドメイド' },
+    { id: 11, name: 'その他' },
+  ]
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to :user
 end
