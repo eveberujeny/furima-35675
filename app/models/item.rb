@@ -8,6 +8,7 @@ class Item < ApplicationRecord
     validates :burden_id
     validates :source_id
     validates :shipping_day_id
+    validates :image
   end
 
   with_options numericality: { other_than: 1 } do
@@ -17,9 +18,14 @@ class Item < ApplicationRecord
     validates :source_id
     validates :shipping_day_id
   end 
-
+  
   belongs_to :user
   has_one_attached :image
+  belongs_to :category
+  belongs_to :status
+  belongs_to :burden
+  belongs_to :source
+  belongs_to :shipping_day
 
 end
 
@@ -38,5 +44,6 @@ class Category < ActiveHash::Base
     { id: 11, name: 'その他' },
   ]
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to :user
+  belongs_to :item
 end
+
