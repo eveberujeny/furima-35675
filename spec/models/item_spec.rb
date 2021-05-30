@@ -42,6 +42,12 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Category must be other than 1")
       end
 
+      it 'status_idが未選択だと登録できないこと' do
+        @item.status_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Status must be other than 1")
+      end
+
       it 'burden_idが未選択だと登録できないこと' do
         @item.burden_id = 1
         @item.valid?
