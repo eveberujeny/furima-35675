@@ -23,6 +23,6 @@ class Item < ApplicationRecord
   belongs_to :status
   belongs_to :burden
   belongs_to :source
-  belongs_to :shipping
+  belongs_to :shipping_day
 
 end
