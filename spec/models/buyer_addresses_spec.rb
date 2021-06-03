@@ -92,6 +92,11 @@ RSpec.describe BuyerAddress, type: :model do
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include("User can't be blank")      
       end
+      it 'itemが紐づいていないと保存できないこと' do
+        @buyer_address.item_id = nil
+        @buyer_address.valid?
+        expect(@buyer_address.errors.full_messages).to include("Item can't be blank")
+      end
     end
   end
 end
