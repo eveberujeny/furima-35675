@@ -52,7 +52,7 @@ class ItemsController < ApplicationController
   end
 
   def move_to_edit
-    unless current_user.id == @item.user_id
+    unless current_user.id == @item.user_id && !Buyer.exists?(item_id: @item.id)
       redirect_to action: :index
     end
   end
