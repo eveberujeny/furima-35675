@@ -4,7 +4,9 @@ RSpec.describe BuyerAddress, type: :model do
   describe '商品購入機能' do
     before do
       user = FactoryBot.create(:user)
-      @buyer_address = FactoryBot.build(:buyer_address, user_id: user.id)
+      item = FactoryBot.create(:item)
+      @buyer_address = FactoryBot.build(:buyer_address, user_id: user.id, item_id: item.id)
+      sleep 0.1
     end
 
     context '内容に問題ない場合' do
@@ -55,14 +57,26 @@ RSpec.describe BuyerAddress, type: :model do
         expect(@buyer_address.errors.full_messages).to include("Phone number can't be blank")
       end
 
-      it 'phone_numberが11桁以上だと保存できないこと' do
+      it 'phone_numberが12桁以上だと保存できないこと' do
         @buyer_address.phone_number = '123456789012'
+        @buyer_address.valid?
+        expect(@buyer_address.errors.full_messages).to include("Phone number is invalid")
+      end
+
+      it 'phone_numberが9桁以下だと保存できないこと' do
+        @buyer_address.phone_number = '123456789'
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include("Phone number is invalid")
       end
 
       it 'phone_numberが全角数字だと保存できないこと' do
         @buyer_address.phone_number = '１２３４５６７８９０１'
+        @buyer_address.valid?
+        expect(@buyer_address.errors.full_messages).to include("Phone number is invalid")
+      end
+
+      it 'phone_numberが半角英数字混合だと保存できないこと' do
+        @buyer_address.phone_number = 'a1234567890'
         @buyer_address.valid?
         expect(@buyer_address.errors.full_messages).to include("Phone number is invalid")
       end
